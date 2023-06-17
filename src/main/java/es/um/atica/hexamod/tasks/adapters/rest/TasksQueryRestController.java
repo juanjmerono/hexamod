@@ -20,7 +20,11 @@ import es.um.atica.hexamod.shared.identity.IdentityService;
 import es.um.atica.hexamod.tasks.adapters.rest.dto.TaskDTO;
 import es.um.atica.hexamod.tasks.application.TasksService;
 import es.um.atica.hexamod.tasks.domain.Task;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+@Tag(name="Tasks Service")
 @RestController
 @RequestMapping(value="/hexamod/v1/task")
 public class TasksQueryRestController {
@@ -36,6 +40,13 @@ public class TasksQueryRestController {
     @Autowired
     private IdentityService identityService;
 
+    @Operation(
+        description = "Get all user tasks paginated",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "200", ref = "ok"),
+        }
+    )
     @GetMapping
     @PreAuthorize("hasPermission('OWN', 'tasks.GET_OWN_TASKS')")
     public CollectionModel<EntityModel<TaskDTO>> allUsers(@AuthenticationPrincipal Jwt jwt,

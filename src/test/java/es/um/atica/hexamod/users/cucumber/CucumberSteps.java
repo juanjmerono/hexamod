@@ -35,9 +35,6 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         MvcResult docResult = getMVC().perform(MockMvcRequestBuilders.get(docPath)
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         assertEquals(200,docResult.getResponse().getStatus());
-        System.err.println("************************");
-        System.err.println(docResult.getResponse().getContentAsString());
-        System.err.println("************************");
     }
 
     @Dado("un usuario no autenticado")

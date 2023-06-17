@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import es.um.atica.hexamod.users.adapters.rest.dto.UserDTO;
 import es.um.atica.hexamod.users.application.UsersService;
 import es.um.atica.hexamod.users.domain.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+@Tag(name="Users Service")
 @RestController
 @RequestMapping(value="/hexamod/v1/user")
 public class UsersQueryRestController {
@@ -32,6 +36,13 @@ public class UsersQueryRestController {
     @Autowired
     private UsersService usersService;
 
+    @Operation(
+        description = "Get all users paginated",
+        responses = {
+            @ApiResponse(responseCode = "401", ref = "unauthorized"),
+            @ApiResponse(responseCode = "200", ref = "ok"),
+        }
+    )
     @GetMapping
     @PreAuthorize("hasPermission('ALL', 'users.GET_LIST')")
     public CollectionModel<EntityModel<UserDTO>> allUsers(@AuthenticationPrincipal Jwt jwt,
