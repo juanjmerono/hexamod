@@ -1,0 +1,2 @@
+# hexamod
+Modular hexagonal project
