@@ -63,7 +63,7 @@ public class CucumberSteps extends CucumberSpringConfiguration {
     @Entonces("contiene un documento pdf de {int} bytes")
     public void contiene_un_documento_pdf(int bytes) throws FileNotFoundException, IOException {
         assertEquals("application/pdf",mvcResult.getResponse().getContentType());
-        assertEquals(bytes,mvcResult.getResponse().getContentLength());
+        assertEquals(bytes, mvcResult.getResponse().getContentLength());
         File outputFile = new File("target/test.pdf");
         try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
             outputStream.write(mvcResult.getResponse().getContentAsByteArray());

@@ -21,9 +21,9 @@ public class TasksService {
         return tasksReadRepository.findAll(user, page, pageSize);
     }
 
-    public ByteArrayInputStream loadAsStream(String user, int page, int pageSize) throws Exception {
+    public ByteArrayInputStream loadAllAsStream(String user) throws Exception {
         HashMap<String,Object> map = new HashMap<>();
-        map.put("tasks", tasksReadRepository.findAll(user, page, pageSize));
+        map.put("tasks", tasksReadRepository.findAll(user));
         map.put("title", "My Tasks");
         return pdfService.pdfFromHtml("tasks/template",map);
     }

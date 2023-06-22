@@ -8,24 +8,36 @@
 <body>
 
   <div>
-    <img th:attr="src=@{tasks/public/images/softtek.png}" class="logo"
-      title="Softtek InnovationsLab" alt="Logo InnovationsLab" />
+    <img th:attr="src=@{tasks/public/images/Logo-UMU.jpg}" class="logo"
+      title="Universidad de Murcia" alt="Logo Universidad de Murcia"/>
   </div>
-  <p class="thick title"><span th:text="${title}"></span>!</p>
+
+  <h1><span th:text="${title}"></span>!</h1>
 
   <table class="tabla-detalle">
-    <th>
-      <td>Tasks</td>
-    </th>
-    <tr th:each="task : ${tasks}">
-      <td th:text="${task.description}">Task</td>
-    </tr>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="task : ${tasks}">
+        <td th:text="${task.description}">Task</td>
+        <td th:text="${task.duration}">Duration</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2">&nbsp;</th>
+      </tr>
+    </tfoot>
   </table>
 
 
   <!-- Pie -->
   <div id="footer" class="tabla-pie">
-    <b>&copy; 2023 Softtek</b>
+    <b>&copy; 2023 Tasks</b>
   </div>
 
 

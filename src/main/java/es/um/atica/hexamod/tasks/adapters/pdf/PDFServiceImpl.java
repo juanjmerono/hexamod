@@ -2,6 +2,7 @@ package es.um.atica.hexamod.tasks.adapters.pdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.nio.file.FileSystems;
 import java.util.Map;
 
@@ -47,11 +48,12 @@ public class PDFServiceImpl implements PDFService {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         ITextRenderer renderer = new ITextRenderer();
-        String baseUrl = FileSystems.getDefault()
-            .getPath("src/main/resources/")
-            .toUri().toURL().toString();
-            
-        renderer.setDocumentFromString(templateEngine.process(template, ctx),baseUrl);
+        // Obtain Base Path for template file
+        String baseUrl = this.getClass().getClassLoader()
+            .getResource(template+".html")
+            .toURI().toURL().toString();
+        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+        renderer.setDocumentFromString(templateEngine.process(template, ctx), baseUrl);
         renderer.layout();
         renderer.createPDF(bos);
 

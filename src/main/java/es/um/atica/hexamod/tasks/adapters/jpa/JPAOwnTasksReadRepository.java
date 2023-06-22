@@ -1,5 +1,7 @@
 package es.um.atica.hexamod.tasks.adapters.jpa;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -12,5 +14,6 @@ import es.um.atica.hexamod.tasks.adapters.jpa.entity.TaskEntity;
 public interface JPAOwnTasksReadRepository extends PagingAndSortingRepository<TaskEntity,String>, JpaSpecificationExecutor<TaskEntity>{
  
     public Page<TaskEntity> findAllByUser(String user, Pageable pageable);
+    public List<TaskEntity> findAllByUser(String user);
 
 }

@@ -81,11 +81,9 @@ public class TasksQueryRestController {
     )
     @GetMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasPermission('OWN', 'tasks.GET_OWN_TASKS')")
-    public @ResponseBody ResponseEntity<Resource> allUsersPDF(@AuthenticationPrincipal Jwt jwt,
-        @RequestParam(name="page",required = false, defaultValue = "0") int page,
-		@RequestParam(name="size",required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize) throws Exception {
+    public @ResponseBody ResponseEntity<Resource> allUsersPDF(@AuthenticationPrincipal Jwt jwt) throws Exception {
             String userId = identityService.getUserIdFromSubject(jwt.getSubject());
-            ByteArrayInputStream bis = tasksService.loadAsStream(userId, page,pageSize);
+            ByteArrayInputStream bis = tasksService.loadAllAsStream(userId);
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"tasks.pdf\"");
             responseHeaders.set(HttpHeaders.CONTENT_LENGTH, ""+bis.available());
