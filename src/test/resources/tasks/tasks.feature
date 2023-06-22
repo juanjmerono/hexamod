@@ -13,9 +13,16 @@ Característica: Tareas
     Cuando trata de obtener su listado de tareas
     Entonces obtiene un error de autenticación
 
-  @users @listado @unauthorized @error
+  @users @listado @success
   Escenario: Obtener un listado inicial de tareas autenticado
     Dado el usuario autenticado "user@acme.es"
     Cuando trata de obtener su listado de tareas
     Entonces obtiene una respuesta correcta
     Y contiene una lista paginada de 1 página con 5 tareas por página y un total de 1 elementos
+
+  @users @listado @success
+  Escenario: Obtener un listado inicial de tareas autenticado
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de obtener su listado de tareas en pdf
+    Entonces obtiene una respuesta correcta
+    Y contiene un documento pdf de 4883 bytes

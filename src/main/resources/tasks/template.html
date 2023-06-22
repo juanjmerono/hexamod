@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{tasks/public/css/styles.css}" />
+</head>
+
+<body>
+
+  <div>
+    <img th:attr="src=@{tasks/public/images/softtek.png}" class="logo"
+      title="Softtek InnovationsLab" alt="Logo InnovationsLab" />
+  </div>
+  <p class="thick title"><span th:text="${title}"></span>!</p>
+
+  <table class="tabla-detalle">
+    <th>
+      <td>Tasks</td>
+    </th>
+    <tr th:each="task : ${tasks}">
+      <td th:text="${task.description}">Task</td>
+    </tr>
+  </table>
+
+
+  <!-- Pie -->
+  <div id="footer" class="tabla-pie">
+    <b>&copy; 2023 Softtek</b>
+  </div>
+
+
+
+</body>
+
+</html>

@@ -2,6 +2,11 @@ package es.um.atica.hexamod.tasks.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
@@ -46,6 +51,23 @@ public class CucumberSteps extends CucumberSpringConfiguration {
         mvcResult = getMVC().perform(MockMvcRequestBuilders.get(getAPIPath())
             .with(getJWT())
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+    }
+
+    @Cuando("trata de obtener su listado de tareas en pdf")
+    public void trata_de_obtener_su_listado_de_tareas_en_pdf() throws Exception {
+        mvcResult = getMVC().perform(MockMvcRequestBuilders.get(getAPIPath()+"/pdf")
+            .with(getJWT())
+            .accept(MediaType.APPLICATION_PDF_VALUE)).andReturn();
+    }
+
+    @Entonces("contiene un documento pdf de {int} bytes")
+    public void contiene_un_documento_pdf(int bytes) throws FileNotFoundException, IOException {
+        assertEquals("application/pdf",mvcResult.getResponse().getContentType());
+        assertEquals(bytes,mvcResult.getResponse().getContentLength());
+        File outputFile = new File("target/test.pdf");
+        try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+            outputStream.write(mvcResult.getResponse().getContentAsByteArray());
+        }
     }
 
     @Entonces("obtiene un error de autenticación")
