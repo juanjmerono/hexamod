@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.um.atica.hexamod.shared.identity.IdentityService;
 import es.um.atica.hexamod.tasks.adapters.rest.dto.TaskDTO;
-import es.um.atica.hexamod.tasks.application.TasksService;
+import es.um.atica.hexamod.tasks.application.TasksServiceImpl;
 import es.um.atica.hexamod.tasks.domain.Task;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +42,7 @@ public class TasksQueryRestController {
     private TasksModelAssembler tasksModelAssembler;
 
     @Autowired
-    private TasksService tasksService;
+    private TasksServiceImpl tasksService;
 
     @Autowired
     private IdentityService identityService;
@@ -60,7 +60,7 @@ public class TasksQueryRestController {
         @RequestParam(name="page",required = false, defaultValue = "0") int page,
 		@RequestParam(name="size",required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize) throws Exception {
             String userId = identityService.getUserIdFromSubject(jwt.getSubject());
-            Page<Task> pageUser = (Page<Task>)tasksService.findAll(userId, page,pageSize);
+            Page<Task> pageUser = (Page<Task>)tasksService.loadAllTaskFromUserPaginated(userId, page,pageSize);
             return tasksModelAssembler
                     .toCollectionModel(
                         new PageImpl<TaskDTO>(StreamSupport.stream(pageUser.spliterator(), false)
@@ -83,7 +83,7 @@ public class TasksQueryRestController {
         @RequestParam(name="page",required = false, defaultValue = "0") int page,
 		@RequestParam(name="size",required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize) throws Exception {
             String userId = identityService.getUserIdFromSubject(jwt.getSubject());
-            Page<Task> pageUser = (Page<Task>)tasksService.findAllShort(userId, page,pageSize);
+            Page<Task> pageUser = (Page<Task>)tasksService.loadAllShortTasksFromUserPaginated(userId, page,pageSize);
             return tasksModelAssembler
                     .toCollectionModel(
                         new PageImpl<TaskDTO>(StreamSupport.stream(pageUser.spliterator(), false)
@@ -105,7 +105,7 @@ public class TasksQueryRestController {
     @PreAuthorize("hasPermission('OWN', 'tasks.GET_OWN_TASKS')")
     public @ResponseBody ResponseEntity<Resource> allUsersPDF(@AuthenticationPrincipal Jwt jwt) throws Exception {
             String userId = identityService.getUserIdFromSubject(jwt.getSubject());
-            ByteArrayInputStream bis = tasksService.loadAllAsStream(userId);
+            ByteArrayInputStream bis = tasksService.loadAllTaskFromUserInPDF(userId);
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"tasks.pdf\"");
             responseHeaders.set(HttpHeaders.CONTENT_LENGTH, ""+bis.available());

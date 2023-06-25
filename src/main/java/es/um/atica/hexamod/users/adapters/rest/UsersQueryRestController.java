@@ -48,7 +48,7 @@ public class UsersQueryRestController {
     public CollectionModel<EntityModel<UserDTO>> allUsers(@AuthenticationPrincipal Jwt jwt,
         @RequestParam(name="page",required = false, defaultValue = "0") int page,
 		@RequestParam(name="size",required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize) throws Exception {
-            Page<User> pageUser = (Page<User>)usersService.findAll(page,pageSize);
+            Page<User> pageUser = (Page<User>)usersService.loadAllUsersPaginated(page,pageSize);
             return usersModelAssembler
                     .toCollectionModel(
                         new PageImpl<UserDTO>(StreamSupport.stream(pageUser.spliterator(), false)

@@ -1,37 +1,11 @@
 package es.um.atica.hexamod.tasks.application;
 
 import java.io.ByteArrayInputStream;
-import java.util.HashMap;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import es.um.atica.hexamod.tasks.domain.Task;
 
-@Service
-public class TasksService {
-    
-    @Autowired
-    private OwnTasksReadRepository ownTasksReadRepository;
-    @Autowired
-    private OwnShortTasksReadRepository ownShortTasksReadRepository;
-
-    @Autowired
-    private PDFService pdfService;
-
-    public Iterable<Task> findAll(String user, int page, int pageSize) {
-        return ownTasksReadRepository.findAll(user, page, pageSize);
-    }
-
-    public Iterable<Task> findAllShort(String user, int page, int pageSize) {
-        return ownShortTasksReadRepository.findAll(user, page, pageSize);
-    }
-
-    public ByteArrayInputStream loadAllAsStream(String user) throws Exception {
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("tasks", ownTasksReadRepository.findAll(user));
-        map.put("title", "My Tasks");
-        return pdfService.pdfFromHtml("tasks/template",map);
-    }
-
+public interface TasksService {
+    public Iterable<Task> loadAllTaskFromUserPaginated(String user, int page, int pageSize);
+    public Iterable<Task> loadAllShortTasksFromUserPaginated(String user, int page, int pageSize);
+    public ByteArrayInputStream loadAllTaskFromUserInPDF(String user) throws Exception;
 }
