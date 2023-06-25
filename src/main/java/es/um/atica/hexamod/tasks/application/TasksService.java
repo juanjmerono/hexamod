@@ -12,18 +12,24 @@ import es.um.atica.hexamod.tasks.domain.Task;
 public class TasksService {
     
     @Autowired
-    private OwnTasksReadRepository tasksReadRepository;
+    private OwnTasksReadRepository ownTasksReadRepository;
+    @Autowired
+    private OwnShortTasksReadRepository ownShortTasksReadRepository;
 
     @Autowired
     private PDFService pdfService;
 
     public Iterable<Task> findAll(String user, int page, int pageSize) {
-        return tasksReadRepository.findAll(user, page, pageSize);
+        return ownTasksReadRepository.findAll(user, page, pageSize);
+    }
+
+    public Iterable<Task> findAllShort(String user, int page, int pageSize) {
+        return ownShortTasksReadRepository.findAll(user, page, pageSize);
     }
 
     public ByteArrayInputStream loadAllAsStream(String user) throws Exception {
         HashMap<String,Object> map = new HashMap<>();
-        map.put("tasks", tasksReadRepository.findAll(user));
+        map.put("tasks", ownTasksReadRepository.findAll(user));
         map.put("title", "My Tasks");
         return pdfService.pdfFromHtml("tasks/template",map);
     }

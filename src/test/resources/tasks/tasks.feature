@@ -21,8 +21,15 @@ Característica: Tareas
     Y contiene una lista paginada de 2 página con 5 tareas por página y un total de 10 elementos
 
   @users @listado @success
-  Escenario: Obtener un listado inicial de tareas autenticado
+  Escenario: Obtener un listado inicial de tareas autenticado en pdf
     Dado el usuario autenticado "user@acme.es"
     Cuando trata de obtener su listado de tareas en pdf
     Entonces obtiene una respuesta correcta
-    Y contiene un documento pdf de 361781 bytes
+    Y contiene un documento pdf de 361793 bytes
+
+  @users @listado @success
+  Escenario: Obtener un listado de tareas breves autenticado
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de obtener su listado de tareas breves
+    Entonces obtiene una respuesta correcta
+    Y contiene una lista paginada de 2 página con 5 tareas por página y un total de 7 elementos

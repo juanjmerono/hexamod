@@ -2,11 +2,17 @@ package es.um.atica.hexamod.users.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
+
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -58,8 +64,15 @@ public class CucumberSteps extends CucumberSpringConfiguration {
     }
 
     @Entonces("obtiene un error de autorización")
-    public void obtiene_un_error_de_autorizacion() {
+    public void obtiene_un_error_de_autorizacion() throws Exception {
         assertEquals(403,mvcResult.getResponse().getStatus());
+        Map<String, String> error = getObjectMapper().readValue(mvcResult.getResponse().getContentAsString(),new TypeReference<Map<String,String>>() {});
+        assertEquals("Access is denied",error.get("error"));
+        assertEquals("GET",error.get("method"));
+        assertEquals("user@acme.es",error.get("principal"));
+        assertEquals("/hexamod/v1/user",error.get("path"));
+        assertEquals("org.springframework.security.access.AccessDeniedException",error.get("exception"));
+        assertEquals("403",error.get("status"));
     }
 
     @Entonces("obtiene una respuesta correcta")

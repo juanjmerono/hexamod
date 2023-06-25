@@ -5,26 +5,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import es.um.atica.hexamod.tasks.adapters.jpa.entity.TaskEntity;
-import es.um.atica.hexamod.tasks.application.OwnTasksReadRepository;
+import es.um.atica.hexamod.tasks.application.OwnShortTasksReadRepository;
 import es.um.atica.hexamod.tasks.domain.Task;
 
 @Service
 @org.springframework.context.annotation.Primary
-public class OwnTasksReadRepositoryImpl implements OwnTasksReadRepository {
+public class OwnShortTasksReadRepositoryImpl implements OwnShortTasksReadRepository {
 
     @Autowired
     private JPATasksReadRepository jpaTasksReadRepository;
 
     @Override
     public Iterable<Task> findAll(String user, int page, int pageSize) {
-        return jpaTasksReadRepository.findAll(TaskSpecificationBuilder.ownTasks(user), PageRequest.of(page, pageSize)).map(TaskEntity::toModel);
+        return jpaTasksReadRepository.findAll(TaskSpecificationBuilder.isShort(user), PageRequest.of(page, pageSize)).map(TaskEntity::toModel);
     }
-
-    @Override
-    public Iterable<Task> findAll(String user) {
-        return jpaTasksReadRepository.findAll(TaskSpecificationBuilder.ownTasks(user))
-            .stream().map(TaskEntity::toModel)
-            .toList();
-    }
-
+    
 }

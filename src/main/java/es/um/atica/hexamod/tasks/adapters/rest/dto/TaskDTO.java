@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class TaskDTO {
     
-    private String id;
+    private String id;    
     private String user;
     private String description;
     private int duration;

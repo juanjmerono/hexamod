@@ -10,16 +10,18 @@ import es.um.atica.hexamod.users.adapters.security.UsersPermission;
 
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
+@Service
 public class HexaModPermissionEvaluator implements PermissionEvaluator {
 
     private List<CustomPermissionEvaluator> evaluators;
     private CustomPermissionEvaluator defaultEvaluator = new CustomPermissionEvaluator();
 
-    public HexaModPermissionEvaluator() {
+    public HexaModPermissionEvaluator(UsersPermission usersPermission,TasksPermission tasksPermission) {
         evaluators = new ArrayList<>();
-        evaluators.add(new UsersPermission());
-        evaluators.add(new TasksPermission());
+        evaluators.add(usersPermission);
+        evaluators.add(tasksPermission);
     }
 
     @Override
