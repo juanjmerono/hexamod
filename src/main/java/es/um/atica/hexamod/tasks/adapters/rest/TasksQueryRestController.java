@@ -57,10 +57,11 @@ public class TasksQueryRestController {
     @GetMapping
     @PreAuthorize("hasPermission('OWN', 'tasks.GET_OWN_TASKS')")
     public CollectionModel<EntityModel<TaskDTO>> allUserTasks(@AuthenticationPrincipal Jwt jwt,
+        @RequestParam(name="search",required = false, defaultValue = "") String search,
         @RequestParam(name="page",required = false, defaultValue = "0") int page,
 		@RequestParam(name="size",required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize) throws Exception {
             String userId = identityService.getUserIdFromSubject(jwt.getSubject());
-            Page<Task> pageUser = (Page<Task>)tasksService.loadAllTaskFromUserPaginated(userId, page,pageSize);
+            Page<Task> pageUser = (Page<Task>)tasksService.loadAllTaskFromUserPaginated(userId, search, page, pageSize);
             return tasksModelAssembler
                     .toCollectionModel(
                         new PageImpl<TaskDTO>(StreamSupport.stream(pageUser.spliterator(), false)

@@ -33,3 +33,10 @@ Característica: Tareas
     Cuando trata de obtener su listado de tareas breves
     Entonces obtiene una respuesta correcta
     Y contiene una lista paginada de 2 página con 5 tareas por página y un total de 7 elementos
+
+  @users @listado @success
+  Escenario: Obtener un listado de tareas filtrada por duración
+    Dado el usuario autenticado "user@acme.es"
+    Cuando trata de obtener su listado de tareas de menos de 18 minutos
+    Entonces obtiene una respuesta correcta
+    Y contiene una lista paginada de 1 página con 5 tareas por página y un total de 4 elementos

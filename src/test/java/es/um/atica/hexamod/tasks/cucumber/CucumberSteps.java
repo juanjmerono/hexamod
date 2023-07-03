@@ -67,6 +67,13 @@ public class CucumberSteps extends CucumberSpringConfiguration {
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
+    @Cuando("trata de obtener su listado de tareas de menos de {int} minutos")
+    public void trata_de_obtener_su_listado_de_tareas_de_menos_de_minutos(Integer duration) throws Exception {
+        mvcResult = getMVC().perform(MockMvcRequestBuilders.get(getAPIPath()+"?search=duration<"+duration)
+            .with(getJWT())
+            .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+    }
+
     @Entonces("contiene un documento pdf de {int} bytes")
     public void contiene_un_documento_pdf(int bytes) throws FileNotFoundException, IOException {
         assertEquals("application/pdf",mvcResult.getResponse().getContentType());

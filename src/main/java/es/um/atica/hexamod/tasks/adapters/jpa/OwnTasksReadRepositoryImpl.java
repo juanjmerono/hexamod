@@ -16,8 +16,8 @@ public class OwnTasksReadRepositoryImpl implements OwnTasksReadRepository {
     private JPATasksReadRepository jpaTasksReadRepository;
 
     @Override
-    public Iterable<Task> findAll(String user, int page, int pageSize) {
-        return jpaTasksReadRepository.findAll(TaskSpecificationBuilder.ownTasks(user), PageRequest.of(page, pageSize)).map(TaskEntity::toModel);
+    public Iterable<Task> findAllFiltered(String user, String search, int page, int pageSize) {
+        return jpaTasksReadRepository.findAll(TaskSpecificationBuilder.ownTasksFiltered(user, search), PageRequest.of(page, pageSize)).map(TaskEntity::toModel);
     }
 
     @Override

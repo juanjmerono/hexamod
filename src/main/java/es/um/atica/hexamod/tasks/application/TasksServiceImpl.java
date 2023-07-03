@@ -22,8 +22,8 @@ public class TasksServiceImpl implements TasksService {
     }
 
     @Override
-    public Iterable<Task> loadAllTaskFromUserPaginated(String user, int page, int pageSize) {
-        return ownTasksReadRepository.findAll(user, page, pageSize);
+    public Iterable<Task> loadAllTaskFromUserPaginated(String user, String search, int page, int pageSize) {
+        return ownTasksReadRepository.findAllFiltered(user, search, page, pageSize);
     }
 
     @Override
