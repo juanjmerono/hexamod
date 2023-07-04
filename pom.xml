@@ -52,6 +52,11 @@
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>cz.jirutka.rsql</groupId>
+			<artifactId>rsql-parser</artifactId>
+			<version>2.1.0</version>
+		</dependency>		
 		<!-- OpenAPI -->
    		<dependency>
 			<groupId>org.springdoc</groupId>

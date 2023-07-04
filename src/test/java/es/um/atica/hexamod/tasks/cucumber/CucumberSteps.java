@@ -67,9 +67,9 @@ public class CucumberSteps extends CucumberSpringConfiguration {
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }
 
-    @Cuando("trata de obtener su listado de tareas de menos de {int} minutos")
-    public void trata_de_obtener_su_listado_de_tareas_de_menos_de_minutos(Integer duration) throws Exception {
-        mvcResult = getMVC().perform(MockMvcRequestBuilders.get(getAPIPath()+"?search=duration<"+duration)
+    @Cuando("trata de obtener su listado de tareas de menos de {int} minutos y que empiecen por {string}")
+    public void trata_de_obtener_su_listado_de_tareas_de_menos_de_minutos(Integer duration, String desc) throws Exception {
+        mvcResult = getMVC().perform(MockMvcRequestBuilders.get(getAPIPath()+"?search=duration<"+duration+";desc=='"+desc+"*'")
             .with(getJWT())
             .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
     }

@@ -25,7 +25,7 @@ Característica: Tareas
     Dado el usuario autenticado "user@acme.es"
     Cuando trata de obtener su listado de tareas en pdf
     Entonces obtiene una respuesta correcta
-    Y contiene un documento pdf de 361793 bytes
+    Y contiene un documento pdf de 361792 bytes
 
   @users @listado @success
   Escenario: Obtener un listado de tareas breves autenticado
@@ -37,6 +37,6 @@ Característica: Tareas
   @users @listado @success
   Escenario: Obtener un listado de tareas filtrada por duración
     Dado el usuario autenticado "user@acme.es"
-    Cuando trata de obtener su listado de tareas de menos de 18 minutos
+    Cuando trata de obtener su listado de tareas de menos de 18 minutos y que empiecen por "MITAREA 01"
     Entonces obtiene una respuesta correcta
     Y contiene una lista paginada de 1 página con 5 tareas por página y un total de 4 elementos
