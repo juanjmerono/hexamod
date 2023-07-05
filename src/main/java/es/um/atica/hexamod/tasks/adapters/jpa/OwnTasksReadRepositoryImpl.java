@@ -1,5 +1,7 @@
 package es.um.atica.hexamod.tasks.adapters.jpa;
 
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,7 @@ public class OwnTasksReadRepositoryImpl implements OwnTasksReadRepository {
     @Override
     public Iterable<Task> findAll(String user) {
         return jpaTasksReadRepository.findAll(TaskSpecificationBuilder.ownTasks(user))
-            .stream().map(TaskEntity::toModel)
-            .toList();
+            .stream().map(TaskEntity::toModel).collect(Collectors.toList());
     }
 
 }
